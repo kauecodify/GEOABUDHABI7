@@ -7,6 +7,8 @@
 
 Bem-vindo à documentação oficial do **GEOABUDHABI7**, uma plataforma aérea não tripulada (UAV) de decolagem vertical (VTOL) projetada para superioridade tática, reconhecimento avançado e engajamento de precisão em ambientes urbanos complexos. Este documento detalha a arquitetura do sistema, o funcionamento de seus componentes e a cadeia de eventos que culmina no disparo do sistema de armas.
 
+https://geoabudhabi.vercel.app
+
 ---
 
 ## Arquitetura do Sistema (As Peças)
