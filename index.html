@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEOABUDHABI7 | DRONETATICAL</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;900&display=swap" rel="stylesheet">
+
+    <style>
+         :root {
+            --bg: #e9e9e7;
+            --ink: #111111;
+            --glass-bg: rgba(233, 233, 231, 0.85);
+            --glass-border: rgba(17, 17, 17, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: "Inter Tight", system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        #scene {
+            position: fixed;
+            inset: 0;
+            display: block;
+            z-index: 0;
+        }
+        
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 40px;
+            z-index: 10;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+        
+        .nav__logo {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+        
+        .nav__links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav__links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            transition: opacity 0.25s ease;
+        }
+        
+        .nav__links a:hover {
+            opacity: 1;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+        
+        main {
+            position: relative;
+            z-index: 2;
+        }
+        
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .content-section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            letter-spacing: -0.03em;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: #ccc;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .doc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .doc-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .doc-card h3 {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .doc-card ul {
+            list-style: none;
+        }
+        
+        .doc-card li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        
+        .doc-card li span:last-child {
+            font-weight: 700;
+            text-align: right;
+        }
+        
+        .meta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 40px;
+            z-index: 10;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .nav,
+            .meta,
+            .content-section {
+                padding: 20px 22px;
+            }
+            .nav__links {
+                gap: 18px;
+            }
+            .doc-grid {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="scene"></canvas>
+
+    <h1 id="headline" class="sr-only">
+        <span>GEO</span>
+        <span>ABU DHABI</span>
+        <span>7</span>
+    </h1>
+
+    <nav class="nav">
+        <span class="nav__logo">GEOABUDHABI7&reg;</span>
+        <ul class="nav__links">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#specs">Specs</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <div class="gallery-item"><img src="img/7.jpg" alt="GEOABUDHABI7 - Sensores EO/IR" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Sensors'"></div>
+        </section>
+
+        <section id="overview" class="content-section">
+            <h2 class="section-title">Visão Geral da Plataforma</h2>
+            <div class="doc-grid">
+                <div class="doc-card">
+                    <h3>Introdução</h3>
+                    <p>O <strong>GEOABUDHABI7</strong> é um quadricóptero tático de decolagem vertical (VTOL) de última geração, projetado para operações de vigilância, reconhecimento e engajamento de precisão em ambientes urbanos densos e terrenos complexos.
+                        Sua arquitetura modular permite adaptação rápida a diferentes cenários de missão.</p>
+                </div>
+                <div class="doc-card">
+                    <h3>Diferenciais</h3>
+                    <ul>
+                        <li><span>Operação GPS Negado</span>
+                            <span>Sim</span></li>
+                        <li><span>Design de Baixa Assinatura</span>
+                            <span>Radar/Visual</span></li>
+                        <li><span>Carga Útil Modular</span> <span>Hardpoint
+                                    Tático</span></li>
+                        <li><span>Transmissão Criptografada</span>
+                            <span>AES-256</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="content-section">
+            <h2 class="section-title">Galeria de Operações</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="img/1.jpg" alt="GEOABUDHABI7 - Controlador" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Controller'"></div>
+                <div class="gallery-item"><img src="img/2.jpg" alt="GEOABUDHABI7 - Visão Aérea" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Aerial'"></div>
+                <div class="gallery-item"><img src="img/3.jpg" alt="GEOABUDHABI7 - Detalhe do Casco" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Hull'"></div>
+                <div class="gallery-item"><img src="img/4.jpg" alt="GEOABUDHABI7 - Patrulha Costeira" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Coastal'"></div>
+                <div class="gallery-item"><img src="img/5.jpg" alt="GEOABUDHABI7 - Voo de Reconhecimento" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Recon'"></div>
+                <div class="gallery-item"><img src="img/6.jpg" alt="GEOABUDHABI7 - Sistema de Engajamento" onerror="this.src='https://placehold.co/800x450/111/fff?text=GEOABUDHABI7+Weapon'"></div>
+            </div>
+        </section>
+
+        <section id="specs" class="content-section" style="margin-bottom: 100px;">
+            <h2 class="section-title">Documentação Técnica</h2>
+
+            <div class="doc-grid" style="margin-bottom: 40px;">
+                <div class="doc-card">
+                    <h3>Funcionamento e Propulsão</h3>
+                    <p>O drone opera com um sistema de propulsão elétrica distribuída. Quatro motores brushless de alta rotação (850KV) são montados nas extremidades de braços de fibra de carbono. As hélices possuem passo variável para otimizar a eficiência
+                        em diferentes altitudes e condições de vento.</p>
+                    <br>
+                    <p>A energia é fornecida por cápsulas cilíndricas de baterias de polímero de lítio (LiPo) de alta densidade, montadas externamente para rápida substituição em campo. O sistema gerencia a temperatura e a distribuição de carga para maximizar
+                        a autonomia de 45 minutos.</p>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Sistemas de Navegação e Sensores</h3>
+                    <p>O GEOABUDHABI7 utiliza um sistema de navegação inercial (INS) combinado com LiDAR e odometria visual. Isso permite que o drone voe e mapeie ambientes internos ou áreas urbanas densas onde o sinal de GPS é inexistente ou bloqueado (GPS-denied
+                        environments).
+                    </p>
+                    <br>
+                    <p>O conjunto de sensores inclui uma câmera principal 4K EO/IR (Eletro-óptica/Infravermelho) estabilizada em um gimbal de 3 eixos, capaz de transmitir vídeo em tempo real para a estação de controle com alcance de até 15 km via link criptografado.</p>
+                </div>
+            </div>
+
+            <div class="doc-grid">
+                <div class="doc-card">
+                    <h3>Especificações de Voo</h3>
+                    <ul>
+                        <li><span>Envergadura:</span> <span>1.650
+                                    mm</span></li>
+                        <li><span>Peso Máx. Decolagem:</span> <span>28.0
+                                    kg</span></li>
+                        <li><span>Velocidade Máxima:</span> <span>120
+                                    km/h</span></li>
+                        <li><span>Autonomia de Voo:</span> <span>45
+                                    minutos</span></li>
+                        <li><span>Teto de Serviço:</span> <span>4.500
+                                    m</span></li>
+                        <li><span>Resistência ao Vento:</span> <span>Nível 6
+                                    (13.8 m/s)</span></li>
+                    </ul>
+                </div>
+
+                <div class="doc-card">
+                    <h3>Hardware e Armamento</h3>
+                    <ul>
+                        <li><span>Hardpoint:</span> <span>1x
+                                    Modular</span></li>
+                        <li><span>Calibres Suportados:</span> <span>7.62mm /
+                                    12.7mm</span></li>
+                        <li><span>Estação de Controle:</span> <span>Custom
+                                    ROG (Tela 7")</span></li>
+                        <li><span>Iluminação:</span> <span>LEDs Táticos
+                                    (Laranja/Verde)</span></li>
+                        <li><span>Processamento:</span> <span>Edge AI
+                                    (NVIDIA Jetson)</span></li>
+                        <li><span>Comunicação:</span> <span>Mesh Network /
+                                    Satélite</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="meta">
+        <span>Abu Dhabi &mdash; 2026</span>
+        <span>Scroll to explore</span>
+    </div>
+
+    <script type="importmap">
+        { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }
+    </script>
+
+    <script type="module">
+        import * as THREE from "three"; import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js"; const LINES = [...document.querySelectorAll("#headline span")].map((span) => span.textContent.trim().toUpperCase() ); const BG = "#e9e9e7";
+        const INK = "#111111"; const CAMERA_Z = 5; const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches; const canvas = document.getElementById("scene"); const renderer = new THREE.WebGLRenderer({ canvas, antialias: true
+        }); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); const scene = new THREE.Scene(); scene.background = new THREE.Color(BG); const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100); camera.position.z = CAMERA_Z; const pmrem =
+        new THREE.PMREMGenerator(renderer); scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; const textCanvas = document.createElement("canvas"); const textCtx = textCanvas.getContext("2d"); let textTexture = null; const textPlane
+        = new THREE.Mesh( new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ toneMapped: false, transparent: true }) ); scene.add(textPlane); const torus = new THREE.Mesh( new THREE.TorusKnotGeometry(1, 0.3, 300, 48, 2, 3), new THREE.MeshPhysicalMaterial({
+        color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: 0.7, ior: 1.45, dispersion: 4, envMapIntensity: 1, toneMapped: false, transparent: true }) ); torus.position.z = 2.2; scene.add(torus); function drawText(width, height) {
+        const dpr = Math.min(window.devicePixelRatio, 2); textCanvas.width = Math.round(width * dpr); textCanvas.height = Math.round(height * dpr); textCtx.setTransform(dpr, 0, 0, dpr, 0, 0); textCtx.fillStyle = BG; textCtx.fillRect(0, 0, width, height);
+        textCtx.fillStyle = INK; textCtx.textAlign = "center"; textCtx.textBaseline = "middle"; const maxWidth = width * 0.92; const maxHeight = height * 0.78; const baseSize = 100; const lineGap = 0.98; textCtx.font = `900 ${baseSize}px "Inter Tight",
+        sans-serif`; const sizes = LINES.map( (line) => baseSize * (maxWidth / textCtx.measureText(line).width) ); const totalHeight = sizes.reduce((sum, size) => sum + size * lineGap, 0); const fit = Math.min(1, maxHeight / totalHeight); let y = height
+        / 2 - (totalHeight * fit) / 2; LINES.forEach((line, i) => { const size = sizes[i] * fit; textCtx.font = `900 ${size}px "Inter Tight", sans-serif`; y += (size * lineGap) / 2; textCtx.fillText(line, width / 2, y); y += (size * lineGap) / 2; });
+        if (textTexture) { textTexture.dispose(); } textTexture = new THREE.CanvasTexture(textCanvas); textTexture.colorSpace = THREE.SRGBColorSpace; textTexture.anisotropy = renderer.capabilities.getMaxAnisotropy(); textPlane.material.map = textTexture;
+        textPlane.material.needsUpdate = true; } function resize() { const width = window.innerWidth; const height = window.innerHeight; renderer.setSize(width, height); camera.aspect = width / height; camera.updateProjectionMatrix(); const visibleHeight
+        = 2 * CAMERA_Z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)); const visibleWidth = visibleHeight * camera.aspect; textPlane.scale.set(visibleWidth, visibleHeight, 1); const torusScale = Math.min(visibleWidth, visibleHeight) * 0.09; torus.scale.setScalar(torusScale);
+        drawText(width, height); } const pointer = new THREE.Vector2(); window.addEventListener("pointermove", (e) => { pointer.x = (e.clientX / window.innerWidth) * 2 - 1; pointer.y = (e.clientY / window.innerHeight) * 2 - 1; }); const clock = new THREE.Clock();
+        // Variável para controlar o scroll e o fade let scrollY = 0; window.addEventListener("scroll", () => { scrollY = window.scrollY; }); function render() { const t = clock.getElapsedTime(); // Lógica de Fade baseada no Scroll const maxScroll = window.innerHeight;
+        const fadeFactor = Math.max(0, 1 - (scrollY / maxScroll)); // Aplica a opacidade no texto 3D e no objeto de vidro textPlane.material.opacity = fadeFactor; torus.material.opacity = fadeFactor; if (!reducedMotion) { torus.rotation.x = t * 0.35 +
+        pointer.y * 0.15; torus.rotation.y = t * 0.5 + pointer.x * 0.2; } else { torus.rotation.set(0.6, 0.4, 0); } renderer.render(scene, camera); } function debounce(fn, delay) { let timeoutId; return () => { clearTimeout(timeoutId); timeoutId = setTimeout(fn,
+        delay); }; } const debouncedResize = debounce(resize, 150); window.addEventListener("resize", () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
+        debouncedResize(); }); document.fonts.ready.then(() => { resize(); if (reducedMotion) { render(); } else { renderer.setAnimationLoop(render); } });
+    </script>
+</body>
+
+</html>
