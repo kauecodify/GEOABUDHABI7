@@ -260,6 +260,8 @@
                 <div class="doc-card">
                     <h3>Diferenciais</h3>
                     <ul>
+                        <li><span>Propulsão Híbrida H2</span>
+                            <span>Sim</span></li>
                         <li><span>Operação GPS Negado</span>
                             <span>Sim</span></li>
                         <li><span>Design de Baixa Assinatura</span>
@@ -290,12 +292,14 @@
 
             <div class="doc-grid" style="margin-bottom: 40px;">
                 <div class="doc-card">
-                    <h3>Funcionamento e Propulsão</h3>
-                    <p>O drone opera com um sistema de propulsão elétrica distribuída. Quatro motores brushless de alta rotação (850KV) são montados nas extremidades de braços de fibra de carbono. As hélices possuem passo variável para otimizar a eficiência
-                        em diferentes altitudes e condições de vento.</p>
+                    <h3>Funcionamento e Propulsão Híbrida</h3>
+                    <p>O GEOABUDHABI7 opera com um revolucionário sistema de propulsão híbrida. Quatro motores brushless de alto torque são alimentados primariamente por uma
+                        <strong>Célula de Combustível de Hidrogênio
+                                (H2)</strong>, garantindo um voo de cruzeiro mínimo de 10 horas. Para manobras de alta demanda e o sistema de armas, uma <strong>Bateria de Estado
+                                Sólido</strong> de alta densidade é acionada, recarregando-se automaticamente durante o voo.</p>
                     <br>
-                    <p>A energia é fornecida por cápsulas cilíndricas de baterias de polímero de lítio (LiPo) de alta densidade, montadas externamente para rápida substituição em campo. O sistema gerencia a temperatura e a distribuição de carga para maximizar
-                        a autonomia de 45 minutos.</p>
+                    <p>Em modo de vigilância, o drone pode entrar em
+                        <strong>Modo de Espera Ativa (Hover)</strong>, mantendo as hélices ligadas e os sistemas de sensores operando por até 24 horas ininterruptas, sem necessidade de pouso.</p>
                 </div>
 
                 <div class="doc-card">
@@ -312,14 +316,18 @@
                 <div class="doc-card">
                     <h3>Especificações de Voo</h3>
                     <ul>
-                        <li><span>Envergadura:</span> <span>1.650
+                        <li><span>Envergadura:</span> <span>1.850
                                     mm</span></li>
-                        <li><span>Peso Máx. Decolagem:</span> <span>28.0
+                        <li><span>Peso Máx. Decolagem:</span> <span>45.0
                                     kg</span></li>
                         <li><span>Velocidade Máxima:</span> <span>120
                                     km/h</span></li>
-                        <li><span>Autonomia de Voo:</span> <span>45
-                                    minutos</span></li>
+                        <li><span>Autonomia de Voo:</span> <span>10 horas
+                                    (Mínimo)</span></li>
+                        <li><span>Autonomia em Hover:</span> <span>24
+                                    horas</span></li>
+                        <li><span>Fonte de Energia:</span> <span>Célula H2 +
+                                    Estado Sólido</span></li>
                         <li><span>Teto de Serviço:</span> <span>4.500
                                     m</span></li>
                         <li><span>Resistência ao Vento:</span> <span>Nível 6
@@ -372,11 +380,11 @@
         textPlane.material.needsUpdate = true; } function resize() { const width = window.innerWidth; const height = window.innerHeight; renderer.setSize(width, height); camera.aspect = width / height; camera.updateProjectionMatrix(); const visibleHeight
         = 2 * CAMERA_Z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)); const visibleWidth = visibleHeight * camera.aspect; textPlane.scale.set(visibleWidth, visibleHeight, 1); const torusScale = Math.min(visibleWidth, visibleHeight) * 0.09; torus.scale.setScalar(torusScale);
         drawText(width, height); } const pointer = new THREE.Vector2(); window.addEventListener("pointermove", (e) => { pointer.x = (e.clientX / window.innerWidth) * 2 - 1; pointer.y = (e.clientY / window.innerHeight) * 2 - 1; }); const clock = new THREE.Clock();
-        // Variável para controlar o scroll e o fade let scrollY = 0; window.addEventListener("scroll", () => { scrollY = window.scrollY; }); function render() { const t = clock.getElapsedTime(); // Lógica de Fade baseada no Scroll const maxScroll = window.innerHeight;
-        const fadeFactor = Math.max(0, 1 - (scrollY / maxScroll)); // Aplica a opacidade no texto 3D e no objeto de vidro textPlane.material.opacity = fadeFactor; torus.material.opacity = fadeFactor; if (!reducedMotion) { torus.rotation.x = t * 0.35 +
-        pointer.y * 0.15; torus.rotation.y = t * 0.5 + pointer.x * 0.2; } else { torus.rotation.set(0.6, 0.4, 0); } renderer.render(scene, camera); } function debounce(fn, delay) { let timeoutId; return () => { clearTimeout(timeoutId); timeoutId = setTimeout(fn,
-        delay); }; } const debouncedResize = debounce(resize, 150); window.addEventListener("resize", () => { renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix();
-        debouncedResize(); }); document.fonts.ready.then(() => { resize(); if (reducedMotion) { render(); } else { renderer.setAnimationLoop(render); } });
+        let scrollY = 0; window.addEventListener("scroll", () => { scrollY = window.scrollY; }); function render() { const t = clock.getElapsedTime(); const maxScroll = window.innerHeight; const fadeFactor = Math.max(0, 1 - (scrollY / maxScroll)); textPlane.material.opacity
+        = fadeFactor; torus.material.opacity = fadeFactor; if (!reducedMotion) { torus.rotation.x = t * 0.35 + pointer.y * 0.15; torus.rotation.y = t * 0.5 + pointer.x * 0.2; } else { torus.rotation.set(0.6, 0.4, 0); } renderer.render(scene, camera);
+        } function debounce(fn, delay) { let timeoutId; return () => { clearTimeout(timeoutId); timeoutId = setTimeout(fn, delay); }; } const debouncedResize = debounce(resize, 150); window.addEventListener("resize", () => { renderer.setSize(window.innerWidth,
+        window.innerHeight); camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); debouncedResize(); }); document.fonts.ready.then(() => { resize(); if (reducedMotion) { render(); } else { renderer.setAnimationLoop(render);
+        } });
     </script>
 </body>
 
